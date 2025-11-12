@@ -1,7 +1,7 @@
 "use client"
 
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "@/hooks/useTheme";
+import { useTheme } from "@/contexts/ThemeContext";
 import { ButtonHTMLAttributes, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -66,7 +66,7 @@ export default function ThemeToggle({ className = "", ...props }: ThemeTogglePro
     <button
       onClick={handleToggle}
       className={cn(
-        'flex justify-center items-center bg-linear-to-br from-purple-950 to-purple-600 dark:from-yellow-700 dark:to-yellow-400 w-10 h-10 rounded-[50%] cursor-pointer',
+        'flex justify-center items-center bg-radial to-purple-950 from-purple-600 dark:to-yellow-600 dark:from-yellow-400 transition-colors w-10 h-10 rounded-[50%] cursor-pointer',
         className
       )}
       aria-label="Toggle theme"

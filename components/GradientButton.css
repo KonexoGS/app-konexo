@@ -1,0 +1,75 @@
+.gradient-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  width: 100%;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0 1.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+  border: none;
+  pointer-events: auto;
+  transition: all 0.3s ease;
+}
+
+@media (min-width: 768px) {
+  .gradient-button {
+    width: 158px;
+  }
+}
+
+.gradient-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: 300% 100%;
+  background-position: 0% 50%;
+  border-radius: inherit;
+  z-index: 0;
+  transition: background-position ease-in-out;
+}
+
+.gradient-button:hover .gradient-bg {
+  background-position: 100% 50%;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.button-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dark theme variant */
+.gradient-button.dark-variant {
+  color: var(--color-purple-950);
+}
+
+.gradient-button.dark-variant .gradient-bg {
+  background-image: linear-gradient(to right, #e7e5e4, #d6d3d1, #ffffff, #d6d3d1, #e7e5e4);
+}
+
+.gradient-button.dark-variant:hover .gradient-bg {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+}

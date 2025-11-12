@@ -2,16 +2,26 @@
 
 import Squares from "@/components/Squares";
 import ThemeToggle from "@/components/ThemeToggle";
-import { useTheme } from "@/hooks/useTheme";
+import GradientButton from "@/components/GradientButton";
+import { useTheme } from "@/contexts/ThemeContext";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
 
   const { theme } = useTheme();
-
+  
   return (
     <div className="relative flex justify-center h-screen min-h-screen font-sans p-0 dark:bg-radial from-purple-900 from-40% to-purple-950 overflow-hidden ">
-      <ThemeToggle className="absolute right-5 top-5" />
+      <div className="absolute flex gap-5 items-center right-5 top-5">
+        <Link className="relative overflow-hidden text-white dark:text-home-background font-medium rounded-3xl px-5 py-2 bg-linear-to-br from-purple-900 to-purple-800 dark:from-stone-300 dark:to-white bg-size-[200%_200%] bg-position-[0%_50%] hover:bg-position-[100%_50%] transition-[background-position] duration-500 ease-in-out dark:hover:opacity-95" href='/login'>
+          Entrar
+        </Link>
+        <Link className="relative overflow-hidden text-white dark:text-home-background font-medium rounded-3xl px-5 py-2 bg-linear-to-br from-purple-900 to-purple-800 dark:from-stone-300 dark:to-white bg-size-[200%_200%] bg-position-[0%_50%] hover:bg-position-[100%_50%] transition-[background-position] duration-500 ease-in-out dark:hover:opacity-95" href='/register'>
+          Cadastre-se
+        </Link>
+        <ThemeToggle/>
+      </div>
       <Squares
         speed={0.5}
         squareSize={40}
@@ -25,6 +35,7 @@ export default function Home() {
             className="dark:invert"
             src="/logo.svg"
             alt="Next.js logo"
+            style={{height: "auto", width: "auto"}}
             width={100}
             height={20}
             priority
@@ -35,19 +46,25 @@ export default function Home() {
         </div>
         <div className="flex flex-col items-center justify-center gap-6 text-center sm:items-start sm:text-left">
           <p className=" text-lg text-home-foreground font-medium leading-8 text-nowrap text-center">
-            Procurando o projeto open source ideal para colaborar?<br />Crie uma conta e encontre projetos que se encaixam no seu perfil!
+            Procurando o projeto open source ideal para colaborar?
+            <br />
+            Encontre projetos que se encaixam com suas habilidades!
           </p>
         </div>
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="pointer-events-auto flex h-12 w-full items-center justify-center gap-2 rounded-full bg-linear-to-r from-purple-950 to-purple-700 dark:bg-linear-to-br dark:from-stone-300 dark:via-stone-200 dark:to-white px-5 text-home-background transition-colors hover:brightness-95 dark:hover:bg-home-foreground/93 md:w-[158px]"
+          <GradientButton
             href="#"
-            rel="noopener noreferrer"
+            colors={theme === 'dark' 
+              ? ['#e7e5e4', '#d6d3d1', '#ffffff', '#d6d3d1', '#e7e5e4']
+              : ['#581c87', '#6b21a8', '#7e22ce', '#6b21a8', '#581c87']
+            }
+            animationSpeed={.6}
+            className={theme === 'dark' ? 'dark-variant' : ''}
           >
             Get started
-          </a>
+          </GradientButton>
           <a
-            className="pointer-events-auto text-home-foreground bg-[#ffffff0d] backdrop-blur-[2px] flex h-12 w-full items-center justify-center rounded-full border border-solid border-[#4a3968] px-5 transition-colors hover:bg-black/4 dark:border-white/[.145] md:w-[158px]"
+            className="pointer-events-auto text-home-foreground bg-[#ffffff0d] backdrop-blur-[2px] flex h-12 w-full items-center justify-center rounded-full border border-home-foreground px-5 transition-colors hover:bg-[#ffffff3f] dark:hover:bg-black/4 dark:border-white/[.145] md:w-[158px]"
             href="#"
             rel="noopener noreferrer"
           >
