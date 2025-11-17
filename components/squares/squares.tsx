@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useRef, useEffect } from 'react';
-import './Squares.css';
+import './squares.css';
 
 type CanvasStrokeStyle = string | CanvasGradient | CanvasPattern;
 
