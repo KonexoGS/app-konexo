@@ -1,4 +1,4 @@
-import './GradientButton.css';
+import './gradient-button.css';
 import React, { ReactNode } from 'react';
 
 interface GradientButtonProps {
