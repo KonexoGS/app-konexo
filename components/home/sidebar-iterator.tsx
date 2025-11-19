@@ -23,7 +23,7 @@ export default function SidebarIterator({
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
-            <Tooltip disableHoverableContent open={isClosed ? undefined : false}>
+            <Tooltip key={item.title} disableHoverableContent open={isClosed ? undefined : false}>
               <TooltipTrigger asChild>
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>

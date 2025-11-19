@@ -30,9 +30,9 @@ export default function SidebarControl({ sidebarState, selectOption }: SidebarCo
           data-slot="sidebar-trigger"
           variant="ghost"
           size="icon"
-          className="size-7 cursor-pointer hover:bg-sidebar-accent"
+          className="size-8 cursor-pointer hover:bg-sidebar-accent"
         >
-          <PanelLeftIcon className="text-sidebar-primary" />
+          <PanelLeftIcon className="text-sidebar-primary size-5" />
           <span className="sr-only">Toggle Sidebar</span>
         </Button>
       </PopoverTrigger>

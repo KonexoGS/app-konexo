@@ -15,6 +15,8 @@ import { useLocalStorage } from "@/hooks/use-local-storage"
 import { NavUser } from "./nav-user"
 import SidebarIterator from "./sidebar-iterator"
 import { sidebarItems } from "@/constants/sidebar-items"
+import ThemeToggle from "../theme-toggle"
+import { cn } from "@/lib/utils"
 
 export type SidebarControlOptions = 'open' | 'closed' | 'hover';
 
@@ -77,11 +79,14 @@ export function AppSidebar() {
           pathname={pathname}
         />
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarControl
-          sidebarState={sidebarControl}
-          selectOption={setSidebarControl}
-        />
+      <SidebarFooter className="gap-5 items-center!">
+        <div className="w-full flex pl-1 items-center gap-2 overflow-hidden group-data-[state=collapsed]:pl-0 transition-[width,height,padding]">
+          <SidebarControl
+            sidebarState={sidebarControl}
+            selectOption={setSidebarControl}
+          />
+          <ThemeToggle size={25}/>
+        </div>
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>
