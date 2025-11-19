@@ -67,7 +67,7 @@ export function AppSidebar() {
             priority
             style={{ width: '20px', height: '20px' }}
           />
-          <span className="truncate font-medium leading-tight tracking-tight bg-clip-text text-transparent bg-linear-to-r from-purple-950 via-purple-900 to-purple-700">Konexo</span>
+          <span className="truncate font-medium leading-tight tracking-tight bg-clip-text text-transparent bg-linear-to-r from-purple-950 via-purple-900 to-purple-700 dark:from-sidebar-accent-foreground dark:via-sidebar-accent-foreground dark:to-sidebar-accent-foreground dark:font-semibold">Konexo</span>
         </div>
       </SidebarHeader>
       <SidebarContent>
