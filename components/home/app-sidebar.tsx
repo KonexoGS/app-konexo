@@ -27,6 +27,7 @@ export function AppSidebar() {
   const { state, setOpen } = useSidebar();
 
   const [sidebarControl, setSidebarControl] = useLocalStorage<SidebarControlOptions>('sidebar-control', 'hover');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const isOpen = sidebarControl === 'open';
   const isClosed = sidebarControl === 'closed';
@@ -41,7 +42,7 @@ export function AppSidebar() {
 
   const handleMouseEnter = () => state === "collapsed" && isHover && setOpen(true);
 
-  const handleMouseLeave = () => state === "expanded" && isHover && setOpen(false);
+  const handleMouseLeave = () => state === "expanded" && isHover && !isDropdownOpen && setOpen(false);
 
   const data = {
     user: {
@@ -85,9 +86,9 @@ export function AppSidebar() {
             sidebarState={sidebarControl}
             selectOption={setSidebarControl}
           />
-          <ThemeToggle size={25}/>
+          <ThemeToggle size={24}/>
         </div>
-        <NavUser user={data.user} />
+        <NavUser user={data.user} onOpenChange={setIsDropdownOpen} />
       </SidebarFooter>
     </Sidebar>
   )
