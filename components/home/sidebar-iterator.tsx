@@ -1,14 +1,20 @@
-import React, { ForwardRefExoticComponent, RefAttributes } from 'react'
+import React, { ForwardRefExoticComponent, RefAttributes, useState, useEffect, useCallback, useRef } from 'react'
 import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem, Tooltip, TooltipContent, TooltipTrigger } from '../shadcn'
 import { cn } from '@/lib/utils'
 import { LucideProps } from 'lucide-react';
+import Link from 'next/link';
+import { useExploreStore } from '@/hooks/stores/use-explore-store';
 
-interface SidebarContentProps {
+interface SidebarIteratorProps {
   isClosed: boolean;
   pathname: string;
+  sidebarControl: 'open' | 'closed' | 'hover';
+  setOpen: (open: boolean) => void;
   items: {
+    id: string;
     title: string;
-    url: string;
+    url?: string;
+    onClick?: () => void;
     icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
   }[];
 }
@@ -16,29 +22,107 @@ interface SidebarContentProps {
 export default function SidebarIterator({
   isClosed,
   pathname,
-  items
-}: SidebarContentProps) {
+  items,
+}: SidebarIteratorProps) {
+
+  // store do explore
+  const openExplore = useExploreStore((state) => state.openExplore);
+  const isExploreOpen = useExploreStore((state) => state.isExploreOpen);
+  const closeExplore = useExploreStore((state) => state.closeExplore);
+
+  const [openTooltipId, setOpenTooltipId] = useState<string | null>(null);
+  const [activeItemId, setActiveItemId] = useState<string | null>(null);
+
+  // salva o item anterior para retornar a ela quando o explorer fechar
+  const previousActiveItemId = useRef<string | null>(null);
+
+  // determina o item ativo baseado no pathname
+  useEffect(() => {
+    const activeItem = items.find(item => item.url === pathname);
+    if (activeItem) {
+      setActiveItemId(activeItem.id);
+
+      // salva o item ativo apenas se não for o explore
+      if (activeItem.id !== "explore") {
+        previousActiveItemId.current = activeItem.id;
+      }
+    }
+  }, [pathname, items]);
+
+  // restaura o item ativo anterior quando o explore fecha
+  useEffect(() => {
+    if (!isExploreOpen && previousActiveItemId.current) {
+      setActiveItemId(previousActiveItemId.current);
+    }
+  }, [isExploreOpen]);
+
+  // reseta o tooltip quando a sidebar muda de estado
+  useEffect(() => setOpenTooltipId(null), [isClosed]);
+
+  const handleClick = useCallback((e: React.MouseEvent, item: typeof items[0]) => {
+    if (item.id === "explore") {
+      e.preventDefault();
+
+      if (isExploreOpen) {
+        closeExplore();
+        return;
+      }
+
+      // salva o item ativo atual antes de abrir o explore
+      if (activeItemId && activeItemId !== "explore") {
+        previousActiveItemId.current = activeItemId;
+      }
+
+      setOpenTooltipId(null);
+      setActiveItemId(item.id);
+      openExplore();
+    } else {
+      // define o item ativo ao clicar em outros itens
+      setActiveItemId(item.id);
+      previousActiveItemId.current = item.id;
+    }
+  }, [isExploreOpen, closeExplore, openExplore, activeItemId]);
+
+  // função helper para verificar se o item está ativo
+  const isItemActive = (item: typeof items[0]) => {
+    return activeItemId === item.id;
+  };
+
   return (
     <SidebarGroup>
       <SidebarGroupContent>
         <SidebarMenu>
-          {items.map((item) => (
-            <Tooltip key={item.title} disableHoverableContent open={isClosed ? undefined : false}>
-              <TooltipTrigger asChild>
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url} className={cn("py-2! text-sidebar-primary", (pathname === item.url && "bg-sidebar-accent!"))}>
-                      <item.icon className={cn(pathname === item.url && "text-sidebar-accent-foreground")} />
-                      <span className={cn("font-medium", (pathname === item.url && "text-sidebar-accent-foreground"))}>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </TooltipTrigger>
-              <TooltipContent className="bg-sidebar-accent text-sidebar-primary" side="right">
-                {item.title}
-              </TooltipContent>
-            </Tooltip>
-          ))}
+          {items.map((item) => {
+            const isActive = isItemActive(item);
+
+            return (
+              <Tooltip
+                delayDuration={500}
+                key={item.id}
+                open={isClosed && openTooltipId === item.id}
+                onOpenChange={(open) => setOpenTooltipId(open ? item.id : null)}
+              >
+                <TooltipTrigger asChild>
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href={item.url ?? "#"}
+                        onClick={(e) => handleClick(e, item)}
+                        data-sidebar-button-id={item.id}
+                        className={cn("cursor-pointer py-2! text-sidebar-primary", isActive && "bg-sidebar-accent!")}
+                      >
+                        <item.icon className={cn(isActive && "text-sidebar-accent-foreground")} />
+                        <span className={cn("font-medium", isActive && "text-sidebar-accent-foreground")}>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </TooltipTrigger>
+                <TooltipContent className="z-52 bg-sidebar-accent text-sidebar-primary" side="right">
+                  {item.title}
+                </TooltipContent>
+              </Tooltip>
+            )
+          })}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

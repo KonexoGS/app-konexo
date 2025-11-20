@@ -6,13 +6,6 @@ export async function getAllUsers() {
   try {
     const res = await axios.get("http://localhost:8000/default-profiles");
 
-    if (!res.data) {
-      return {
-        success: false,
-        error: res.status
-      }
-    }
-
     return {
       success: true,
       data: res.data
