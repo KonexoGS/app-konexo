@@ -24,7 +24,7 @@ export default function SidebarControl({ sidebarState, selectOption }: SidebarCo
 
   return (
     <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger className='z-52' asChild>
         <Button
           data-sidebar="trigger"
           data-slot="sidebar-trigger"
@@ -36,7 +36,7 @@ export default function SidebarControl({ sidebarState, selectOption }: SidebarCo
           <span className="sr-only">Toggle Sidebar</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
+      <PopoverContent className="z-52 w-auto p-0" align="start">
         <div className="text-xs border-b p-2 px-4 font-medium text-sidebar-primary-foreground">
           Sidebar control
         </div>
