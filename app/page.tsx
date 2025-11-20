@@ -12,7 +12,7 @@ export default function Landing() {
   const { theme } = useTheme();
   
   return (
-    <div className="relative flex justify-center h-screen min-h-screen font-sans p-0 dark:bg-radial from-purple-800 from-50% to-purple-950 overflow-hidden ">
+    <div className="relative flex justify-center h-screen min-h-screen p-0 dark:bg-radial from-purple-800 from-50% to-purple-950 overflow-hidden ">
       <div className="absolute flex gap-5 items-center right-5 top-5">
         <Link className="relative overflow-hidden text-white dark:text-home-background font-medium rounded-3xl px-5 py-2 bg-linear-to-br from-purple-900 to-purple-800 dark:from-white dark:to-white bg-size-[200%_200%] bg-position-[0%_50%] hover:bg-position-[100%_50%] transition-[background-position] duration-500 ease-in-out dark:hover:opacity-95" href='/login'>
           Entrar

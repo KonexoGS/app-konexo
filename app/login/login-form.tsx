@@ -22,7 +22,7 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   return (
-    <div className={cn("flex flex-col gap-6 font-sans selection:bg-purple-950 selection:text-white dark:selection:text-purple-800 dark:selection:bg-primary", className)} {...props}>
+    <div className={cn("flex flex-col gap-6 selection:bg-purple-950 selection:text-white dark:selection:text-purple-800 dark:selection:bg-primary", className)} {...props}>
       <Card className="dark:bg-[#ffffff0e] dark:backdrop-blur-[5px] dark:border-[#ffffff30]">
         <CardHeader className="flex flex-col items-center gap-4">
           <Image

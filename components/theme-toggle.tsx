@@ -5,11 +5,22 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { ButtonHTMLAttributes, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-type ThemeToggleProps = ButtonHTMLAttributes<HTMLButtonElement>;
+type ThemeToggleProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+  size?: number;
+  iconSize?: number;
+};
 
-export default function ThemeToggle({ className = "", ...props }: ThemeToggleProps) {
+export default function ThemeToggle({ 
+  className = "", 
+  size = 40,
+  iconSize,
+  ...props 
+}: ThemeToggleProps) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  
+  // Calcula o tamanho do ícone baseado no tamanho do botão se não for especificado
+  const calculatedIconSize = iconSize || size * 0.6;
 
   // função para atualizar o favicon
   const updateFavicon = (currentTheme: string) => {
@@ -52,8 +63,9 @@ export default function ThemeToggle({ className = "", ...props }: ThemeTogglePro
   if (!mounted) {
     return (
       <button
+        style={{ width: size, height: size }}
         className={cn(
-          'flex justify-center items-center bg-gray-400 w-10 h-10 rounded-[50%] cursor-wait animate-pulse',
+          'flex justify-center items-center bg-gray-400 rounded-[50%] cursor-wait animate-pulse',
           className
         )}
         aria-label="Loading theme toggle"
@@ -65,14 +77,19 @@ export default function ThemeToggle({ className = "", ...props }: ThemeTogglePro
   return (
     <button
       onClick={handleToggle}
+      style={{ width: size, height: size }}
       className={cn(
-        'flex justify-center items-center bg-radial to-purple-950 from-purple-600 dark:to-yellow-600 dark:from-yellow-400 transition-colors w-10 h-10 rounded-[50%] cursor-pointer',
+        'flex justify-center items-center bg-radial to-purple-950 from-purple-600 dark:to-yellow-600 dark:from-yellow-400 transition-colors rounded-[50%] cursor-pointer',
         className
       )}
       aria-label="Toggle theme"
       {...props}
     >
-      {theme === 'light' ? <Moon color='white' /> : <Sun color='white' />}
+      {theme === 'light' ? (
+        <Moon color='white' size={calculatedIconSize} />
+      ) : (
+        <Sun color='white' size={calculatedIconSize} />
+      )}
     </button>
   )
 }
