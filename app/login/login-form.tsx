@@ -19,7 +19,7 @@ import Link from "next/link"
 import { loginFormSchema, LoginFormSchema } from "@/validation/login-schema"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from "react-hook-form"
-import { login } from "@/server/login"
+import { login } from "@/server/auth/login"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/shadcn/form"
 
 export function LoginForm({
@@ -52,15 +52,15 @@ export function LoginForm({
   }
 
   return (
-    <div className={cn("flex flex-col gap-6 selection:bg-purple-950 selection:text-white dark:selection:text-purple-800 dark:selection:bg-primary", className)} {...props}>
-      <Card className="dark:bg-[#ffffff0e] dark:backdrop-blur-[5px] dark:border-[#ffffff30]">
+    <div className={cn("flex justify-center selection:bg-purple-950 selection:text-white dark:selection:text-[#260135] dark:selection:bg-primary", className)} {...props}>
+      <Card className="min-w-sm dark:bg-[#ffffff0e] dark:backdrop-blur-[5px] dark:border-[#ffffff30]">
         <CardHeader className="flex flex-col items-center gap-4">
           <Image
             className="dark:invert"
             alt="Logo da Konexo"
             src='/logo.svg'
-            width={50}
-            height={50}
+            width={40}
+            height={40}
             priority
           />
           <CardTitle className="text-center text-purple-950 dark:text-white">Entre na sua conta</CardTitle>
@@ -70,13 +70,13 @@ export function LoginForm({
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-5">
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-10">
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='emphasis font-medium!'>Email</FormLabel>
+                    <FormLabel className='not-dark:text-purple-950 font-medium!'>Email</FormLabel>
                     <FormControl>
                       <Input
                         id="email"
@@ -87,7 +87,7 @@ export function LoginForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage/>
                   </FormItem>
                 )}
               />
@@ -96,7 +96,7 @@ export function LoginForm({
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='emphasis font-medium!'>Senha</FormLabel>
+                    <FormLabel className='not-dark:text-purple-950 font-medium!'>Senha</FormLabel>
                     <FormControl>
                       <Input
                         id="password"
@@ -106,12 +106,12 @@ export function LoginForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage/>
                   </FormItem>
                 )}
               />
               <Field className="gap-4">
-                <Button className="cursor-pointer bg-purple-950 hover:bg-purple-900 dark:text-purple-900 dark:bg-primary dark:hover:bg-primary/90" type="submit">Login</Button>
+                <Button className="cursor-pointer bg-purple-950 hover:bg-purple-900 dark:text-[#260135] dark:bg-primary dark:hover:bg-primary/90" type="submit">Login</Button>
                 <FieldDescription className="text-center dark:text-white/70">
                   Não tem uma conta? <Link href="/register" className="not-dark:hover:text-purple-950">Registre-se</Link>
                 </FieldDescription>

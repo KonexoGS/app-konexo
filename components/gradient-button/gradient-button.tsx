@@ -32,7 +32,7 @@ export default function GradientButton({
       {...additionalProps}
     >
       <div className="gradient-bg" style={gradientStyle}></div>
-      <span className="button-content">
+      <span className="button-content dark:text-[#280137]">
         {children}
       </span>
     </Component>

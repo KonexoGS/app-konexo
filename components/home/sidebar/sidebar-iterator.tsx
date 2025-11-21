@@ -1,5 +1,5 @@
 import React, { ForwardRefExoticComponent, RefAttributes, useState, useEffect, useCallback, useRef } from 'react'
-import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem, Tooltip, TooltipContent, TooltipTrigger } from '../shadcn'
+import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem, Tooltip, TooltipContent, TooltipTrigger } from '@/components/shadcn'
 import { cn } from '@/lib/utils'
 import { LucideProps } from 'lucide-react';
 import Link from 'next/link';

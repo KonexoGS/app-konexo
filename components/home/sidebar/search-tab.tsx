@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { Separator, Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/shadcn'
 import { useExploreStore } from '@/hooks/stores/use-explore-store'
 import { useQuery } from '@tanstack/react-query'
-import { searchUsers } from '@/server/search-user'
+import { searchUsers } from '@/server/users/search-user'
 import { Search } from 'lucide-react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/shadcn/input-group'
 import { Spinner } from '@/components/shadcn/spinner'
@@ -33,7 +33,6 @@ export default function SearchTab() {
     queryFn: () => searchUsers(debouncedSearch),
     staleTime: Infinity,
     enabled: debouncedSearch.length > 0,
-    retry: false,
     refetchOnWindowFocus: false
   })
 
