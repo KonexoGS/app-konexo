@@ -19,7 +19,7 @@ import Link from "next/link"
 import { registerFormSchema, RegisterFormSchema } from "@/validation/register-schema"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from "react-hook-form"
-import { register } from "@/server/auth/register"
+// import { register } from "@/server/auth/register"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/shadcn/form"
 
 export function RegisterForm({
@@ -39,18 +39,22 @@ export function RegisterForm({
   })
 
   const handleSubmit = async (data: RegisterFormSchema) => {
-    const res = await register(data);
+    // const res = await register(data);
 
-    if (res?.validation_errors?.properties) {
-      Object.entries(res.validation_errors.properties).forEach(([property, val]) => {
-        const errorMessage = val?.errors?.[0] || 'Campo inválido';
-        form.setError(property as 'name' | 'email' | 'password' | 'confirmPassword', { message: errorMessage });
-      });
-      return;
-    }
-    
-    console.log(res.data);
-    
+    // if (res?.validation_errors?.properties) {
+    //   Object.entries(res.validation_errors.properties).forEach(([property, val]) => {
+    //     const errorMessage = val?.errors?.[0] || 'Campo inválido';
+    //     form.setError(property as 'name' | 'email' | 'password' | 'confirmPassword', { message: errorMessage });
+    //   });
+    //   return;
+    // }
+
+    // console.log(res.data);
+
+    form.setError('root', {
+      type: 'manual',
+      message: 'Ainda não é possível se registrar'
+    })
   }
 
   return (
@@ -90,7 +94,7 @@ export function RegisterForm({
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage/>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -110,7 +114,7 @@ export function RegisterForm({
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage/>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -131,7 +135,7 @@ export function RegisterForm({
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage/>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -150,13 +154,18 @@ export function RegisterForm({
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage/>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
               <Field className="gap-4">
                 <Button className="cursor-pointer bg-purple-950 hover:bg-purple-900 dark:text-[#260135] dark:bg-primary dark:hover:bg-primary/90" type="submit">Registrar</Button>
+                {form.formState.errors.root && (
+                  <div className="text-red-500 text-sm text-center">
+                    {form.formState.errors.root.message}
+                  </div>
+                )}
                 <FieldDescription className="text-center dark:text-white/70">
                   Já tem uma conta? <Link href="/login" className="not-dark:hover:text-purple-950">Entrar</Link>
                 </FieldDescription>
