@@ -2,8 +2,8 @@ import { SidebarProvider } from "@/components/shadcn/sidebar"
 import { AppSidebar } from "@/components/home/sidebar/app-sidebar"
 import SearchTab from "@/components/home/sidebar/search-tab"
 import { cookies } from "next/headers"
-import '@/app/home/home.css'
-import { MobileSidebarTrigger } from "@/components/home/mobile-sidebar-trigger"
+
+import { MobileSidebarTrigger } from "@/components/home/sidebar/mobile-sidebar-trigger"
 
 export default async function DevLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   

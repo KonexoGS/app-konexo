@@ -6,7 +6,7 @@ type SearchProjectsQueryParams = 'username' | 'name';
 
 export async function searchUsers(queryParam: SearchProjectsQueryParams, term: string) {
   try {
-    const res = await axios.get(`http://localhost:8000/default-profiles/search?${queryParam}=${term}`);
+    const res = await axios.get(`http://localhost:8000/devs/search?${queryParam}=${term}`);
 
     return {
       success: true,

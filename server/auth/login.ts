@@ -20,7 +20,7 @@ export async function login(data: LoginFormSchema) {
   try {
     const res = await axios.post("https://localhost:8000/auth/token", {
       email: data.email,
-      password: data.password
+      password: data.password,
     })
     
     console.log(res.data);

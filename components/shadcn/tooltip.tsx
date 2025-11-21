@@ -38,8 +38,11 @@ function TooltipContent({
   className,
   sideOffset = 0,
   children,
+  arrowColor,
   ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Content>) {
+}: React.ComponentProps<typeof TooltipPrimitive.Content> & {
+  arrowColor?: string;
+}) {
   return (
     <TooltipPrimitive.Portal>
       <TooltipPrimitive.Content
@@ -52,7 +55,13 @@ function TooltipContent({
         {...props}
       >
         {children}
-        <TooltipPrimitive.Arrow className="bg-sidebar-accent fill-sidebar-accent z-50 size-2.5 translate-y-[calc(-50%-2px)] rotate-45 rounded-[2px]" />
+        <TooltipPrimitive.Arrow 
+          className="z-50 size-2.5 translate-y-[calc(-50%-2px)] rotate-45 rounded-[2px]"
+          style={{
+            backgroundColor: arrowColor || undefined,
+            fill: arrowColor || undefined
+          }}
+        />
       </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>
   )

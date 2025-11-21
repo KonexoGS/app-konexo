@@ -8,7 +8,7 @@ type SearchProjectsQueryParams = 'category' | 'project_id' | 'name';
 export async function searchProjects(queryParam: SearchProjectsQueryParams, term: string) {
 
   try {
-    const res = await axios.get(`http://localhost:8000/projects/search?category=api`);
+    const res = await axios.get(`http://localhost:8000/projects/search?${queryParam}=${term}`);
 
     return {
       success: true,
