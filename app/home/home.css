@@ -6,7 +6,6 @@
     }
   }
 
-  /* Mostra scrollbar customizado apenas em telas maiores */
   @media (min-width: 769px) {
     .scrollbar-custom::-webkit-scrollbar {
       width: 8px;
