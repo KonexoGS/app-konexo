@@ -55,7 +55,7 @@ export function RegisterForm({
 
   return (
     <div className={cn("flex justify-center items-center selection:bg-purple-950 selection:text-white dark:selection:text-[#260135] dark:selection:bg-primary", className)} {...props}>
-      <Card className="w-full max-w-lg px-2 sm:px-5 dark:bg-[#ffffff0e] dark:backdrop-blur-[5px] dark:border-[#ffffff30]">
+      <Card className="w-full max-w-lg sm:px-0 dark:bg-[#ffffff0e] dark:backdrop-blur-[5px] dark:border-[#ffffff30]">
         <CardHeader className="flex flex-col items-center gap-2">
           <Image
             className="dark:invert"
@@ -72,8 +72,8 @@ export function RegisterForm({
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6 sm:space-y-10">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-4">
                 <FormField
                   control={form.control}
                   name="name"
@@ -115,7 +115,7 @@ export function RegisterForm({
                   )}
                 />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-4">
                 <FormField
                   control={form.control}
                   name="password"

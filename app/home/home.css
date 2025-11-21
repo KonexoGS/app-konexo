@@ -1,23 +1,33 @@
 @layer utilities {
-  .scrollbar-custom::-webkit-scrollbar {
-    width: 8px;
+  @media (max-width: 768px) {
+    .scrollbar-custom::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
   }
 
-  .scrollbar-custom::-webkit-scrollbar-track {
-    background: var(--sidebar-accent);
-    border-radius: 8px;
-  }
+  /* Mostra scrollbar customizado apenas em telas maiores */
+  @media (min-width: 769px) {
+    .scrollbar-custom::-webkit-scrollbar {
+      width: 8px;
+    }
 
-  .sidebar-custom-without-radius::-webkit-scrollbar-track {
-    border-radius: 0px;
-  }
+    .scrollbar-custom::-webkit-scrollbar-track {
+      background: var(--sidebar-accent);
+      border-radius: 8px;
+    }
 
-  .scrollbar-custom::-webkit-scrollbar-thumb {
-    background: var(--sidebar-primary);
-    border-radius: 4px;
-  }
+    .sidebar-custom-without-radius::-webkit-scrollbar-track {
+      border-radius: 0px;
+    }
 
-  .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-    background: var(--color-sidebar-primary-foreground);
+    .scrollbar-custom::-webkit-scrollbar-thumb {
+      background: var(--sidebar-primary);
+      border-radius: 4px;
+    }
+
+    .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+      background: var(--color-sidebar-primary-foreground);
+    }
   }
 }

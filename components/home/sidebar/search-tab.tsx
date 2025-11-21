@@ -8,17 +8,27 @@ import { searchUsers } from '@/server/users/search-user'
 import { Search } from 'lucide-react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/shadcn/input-group'
 import { Spinner } from '@/components/shadcn/spinner'
+import { cn } from '@/lib/utils'
 
 export default function SearchTab() {
 
   const isExploreOpen = useExploreStore((state) => state.isExploreOpen);
   const closeExplore = useExploreStore((state) => state.closeExplore);
+  const [isMobile, setIsMobile] = useState(false);
 
   // estado fonte imediato
   const [search, setSearch] = useState('');
 
   // estado debounce para não buscar assim que muda
   const [debouncedSearch, setDebouncedSearch] = useState('');
+
+  // Detecta se é mobile
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // faz o debounce
   useEffect(() => {
@@ -42,13 +52,17 @@ export default function SearchTab() {
 
   return (
     <Sheet open={isExploreOpen} onOpenChange={handleOpenChange}>
-      <SheetContent aria-describedby='search'
-        side="left"
-        className="w-[400px] gap-0.5 flex flex-col"
-        style={{
+      <SheetContent 
+        aria-describedby='search'
+        side={isMobile ? "right" : "left"}
+        className={cn(
+          "gap-0.5 flex flex-col",
+          isMobile ? "w-full" : "w-[400px]"
+        )}
+        style={!isMobile ? {
           left: '3rem',
           width: '400px'
-        }}
+        } : undefined}
         onInteractOutside={(e) => {
           const target = e.target as HTMLElement;
           if (target.closest('[data-sidebar-button-id="explore"]')) {
