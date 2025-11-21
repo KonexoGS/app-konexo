@@ -2,9 +2,11 @@
 
 import axios from "axios";
 
-export async function searchUsers(term: string) {
+type SearchProjectsQueryParams = 'username' | 'name';
+
+export async function searchUsers(queryParam: SearchProjectsQueryParams, term: string) {
   try {
-    const res = await axios.get(`http://localhost:8000/default-profiles/search?username=${term}`);
+    const res = await axios.get(`http://localhost:8000/default-profiles/search?${queryParam}=${term}`);
 
     return {
       success: true,

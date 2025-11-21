@@ -14,7 +14,8 @@ export default async function Home() {
           {greeting}, Luís
         </h1>
         <h3 className="text-sm md:text-base text-sidebar-accent-foreground font-light">
-          Selecionamos alguns projetos que dão match com as suas skills
+          Selecionamos alguns projetos que dão match <br className="sm:hidden" />
+          com as suas skills
         </h3>
       </div>
 

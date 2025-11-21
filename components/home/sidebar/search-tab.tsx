@@ -40,7 +40,7 @@ export default function SearchTab() {
   // busca através do debounce
   const { data: users, isLoading: isSearchingUsers, isError } = useQuery({
     queryKey: ['users', debouncedSearch],
-    queryFn: () => searchUsers(debouncedSearch),
+    queryFn: () => searchUsers('username', debouncedSearch),
     staleTime: Infinity,
     enabled: debouncedSearch.length > 0,
     refetchOnWindowFocus: false
@@ -52,7 +52,7 @@ export default function SearchTab() {
 
   return (
     <Sheet open={isExploreOpen} onOpenChange={handleOpenChange}>
-      <SheetContent 
+      <SheetContent
         aria-describedby='search'
         side={isMobile ? "right" : "left"}
         className={cn(
