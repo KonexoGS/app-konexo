@@ -21,6 +21,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from "react-hook-form"
 import { login } from "@/server/auth/login"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/shadcn/form"
+import { useRouter } from "next/navigation"
 
 export function LoginForm({
   className,
@@ -36,19 +37,22 @@ export function LoginForm({
     mode: "onSubmit",
   })
 
-  const handleSubmit = async (data: LoginFormSchema) => {
-    const res = await login(data);
+  const router = useRouter();
 
-    if (res?.validation_errors?.properties) {
-      Object.entries(res.validation_errors.properties).forEach(([property, val]) => {
-        const errorMessage = val?.errors?.[0] || 'Campo inválido';
-        form.setError(property as 'email' | 'password', { message: errorMessage });
-      });
-      return;
-    }
+  const handleSubmit = async (data: LoginFormSchema) => {
+    // const res = await login(data);
+
+    // console.log(res.error);
     
-    console.log(res.data);
-    
+
+    // if (res?.validation_errors?.properties) {
+    //   Object.entries(res.validation_errors.properties).forEach(([property, val]) => {
+    //     const errorMessage = val?.errors?.[0] || 'Campo inválido';
+    //     form.setError(property as 'email' | 'password', { message: errorMessage });
+    //   });
+    //   return;
+    // }
+    router.replace('/home')
   }
 
   return (

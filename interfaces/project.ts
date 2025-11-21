@@ -3,7 +3,9 @@ export interface Project {
   project_name: string;
   short_description: string;
   full_description: string;
+  stacks: string[];
   category: string[];
   github_link: string | null;
   developers_id: string[];
+  owner_name: string;
 }

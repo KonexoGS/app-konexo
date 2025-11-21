@@ -118,12 +118,75 @@
   --home-foreground: oklch(1 0 0);
 }
 
+@layer utilities {
+  @media (max-width: 768px) {
+    .scrollbar-custom::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .scrollbar-custom::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .scrollbar-custom::-webkit-scrollbar-track {
+      background: var(--sidebar-accent);
+      border-radius: 8px;
+    }
+
+    .sidebar-custom-without-radius::-webkit-scrollbar-track {
+      border-radius: 0px;
+    }
+
+    .scrollbar-custom::-webkit-scrollbar-thumb {
+      background: var(--sidebar-primary);
+      border-radius: 4px;
+    }
+
+    .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+      background: var(--color-sidebar-primary-foreground);
+    }
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    /* scrollbar-width: thin;
+    scrollbar-color: var(--muted-foreground) var(--background); */
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground));
+    border-radius: 3px;
+  }
+  
+  *::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--foreground));
   }
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }

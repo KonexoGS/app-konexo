@@ -9,6 +9,9 @@ import { Search } from 'lucide-react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/shadcn/input-group'
 import { Spinner } from '@/components/shadcn/spinner'
 import { cn } from '@/lib/utils'
+import { SearchItem } from './search-item'
+import { ItemGroup } from '@/components/shadcn/item'
+import { User } from '@/interfaces/user'
 
 export default function SearchTab() {
 
@@ -38,17 +41,22 @@ export default function SearchTab() {
   }, [search]);
 
   // busca através do debounce
-  const { data: users, isLoading: isSearchingUsers, isError } = useQuery({
+  const { data: filteredUsers, isLoading: isSearchingUsers, isError } = useQuery({
     queryKey: ['users', debouncedSearch],
-    queryFn: () => searchUsers('username', debouncedSearch),
+    queryFn: () => searchUsers('name', debouncedSearch),
+    select: (data) => {
+      if (!data?.success || !data.data || !debouncedSearch) return data?.data || [];
+
+      return data.data.filter((user: any) =>
+        user.full_name?.toLowerCase().startsWith(debouncedSearch.toLowerCase())
+      );
+    },
     staleTime: Infinity,
     enabled: debouncedSearch.length > 0,
     refetchOnWindowFocus: false
   })
 
   const handleOpenChange = (open: boolean) => { if (!open) closeExplore() }
-
-  const hasError = isError || (users && !users.success);
 
   return (
     <Sheet open={isExploreOpen} onOpenChange={handleOpenChange}>
@@ -81,7 +89,7 @@ export default function SearchTab() {
           <InputGroup>
             <InputGroupInput
               value={search}
-              placeholder="Pesquise por pessoas ou projetos"
+              placeholder="Pesquise por pessoas"
               onChange={(e) => setSearch(e.target.value)}
             />
             <InputGroupAddon>
@@ -90,35 +98,35 @@ export default function SearchTab() {
             <InputGroupAddon align="inline-end">
               {isSearchingUsers
                 ? <Spinner />
-                : users && `${users?.data?.length} resultado${users?.data?.length > 1 || users?.data?.length === 0 ? 's' : ''}`
+                : filteredUsers && `${filteredUsers?.length} resultado${filteredUsers?.length > 1 || filteredUsers?.length === 0 ? 's' : ''}`
               }
             </InputGroupAddon>
           </InputGroup>
 
           <Separator className='my-4 mt-5' />
 
-          <div className='flex-1 overflow-y-auto min-h-0 scrollbar-custom'>
+          <div className='flex-1 pr-2 overflow-y-auto min-h-0 scrollbar-custom'>
             {!debouncedSearch && (
               // TODO: MOSTRAR HITÓRICO DE PESQUISA
               <p className="text-muted-foreground text-sm font-light text-center">Digite para pesquisar usuários</p>
             )}
 
-            {debouncedSearch && !isSearchingUsers && users?.success && users.data.length === 0 && (
+            {debouncedSearch && !isSearchingUsers && filteredUsers && filteredUsers.length === 0 && (
               <p className="text-muted-foreground text-sm font-light text-center">Nenhum resultado encontrado</p>
             )}
 
-            {debouncedSearch && !isSearchingUsers && hasError && (
+            {debouncedSearch && !isSearchingUsers && isError && (
               <p className="text-destructive text-sm font-light text-center">
                 Erro ao buscar usuários
               </p>
             )}
 
-            {users?.success && users.data.length > 0 && (
-              <div className="space-y-2">
-                {users.data.map((user: any) => (
-                  <p key={user.created_at}>{user.username}</p>
+            {filteredUsers && filteredUsers.length > 0 && (
+              <ItemGroup className="gap-2">
+                {filteredUsers.map((user: User) => (
+                  <SearchItem key={user.username} user={user} />
                 ))}
-              </div>
+              </ItemGroup>
             )}
           </div>
         </div>

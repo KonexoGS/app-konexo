@@ -57,7 +57,7 @@ export function AppSidebar() {
 
   const data = useMemo(() => ({
     user: {
-      name: "shadcn",
+      name: "Luís Scaccheti",
       email: "m@example.com",
       avatar: "/avatars/shadcn.jpg",
     },

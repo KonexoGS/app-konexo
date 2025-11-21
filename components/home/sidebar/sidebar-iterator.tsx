@@ -15,6 +15,7 @@ interface SidebarIteratorProps {
     title: string;
     url?: string;
     onClick?: () => void;
+    disabled?: boolean;
     icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
   }[];
 }
@@ -104,17 +105,24 @@ export default function SidebarIterator({
               >
                 <TooltipTrigger asChild>
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link
-                        href={item.url ?? "#"}
-                        onClick={(e) => handleClick(e, item)}
-                        data-sidebar-button-id={item.id}
-                        className={cn("cursor-pointer py-2! text-sidebar-primary", isActive && "bg-sidebar-accent!")}
-                      >
-                        <item.icon className={cn(isActive && "text-sidebar-accent-foreground")} />
-                        <span className={cn("font-medium", isActive && "text-sidebar-accent-foreground")}>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
+                    {item.disabled ? (
+                      <SidebarMenuButton disabled={true} isActive={isActive}>
+                        <item.icon />
+                        <span className="font-light">{item.title} - Coming soon</span>
+                      </SidebarMenuButton>
+                    ) : (
+                      <SidebarMenuButton isActive={isActive} asChild>
+                        <Link
+                          href={item.url ?? "#"}
+                          onClick={(e) => handleClick(e, item)}
+                          data-sidebar-button-id={item.id}
+                          className="cursor-pointer py-2! text-sidebar-primary"
+                        >
+                          <item.icon />
+                          <span className="font-medium">{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    )}
                   </SidebarMenuItem>
                 </TooltipTrigger>
                 <TooltipContent className="z-52 bg-sidebar-accent text-sidebar-primary" side="right">

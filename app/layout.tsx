@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import QueryProvider from "@/providers/query-provider";
+import { Toaster } from "sonner";
 
 import "./globals.css";
 
@@ -48,11 +49,12 @@ export default function RootLayout({
         <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen font-sans`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen font-sans scrollbar-custom`}
       >
         <QueryProvider>
           <ThemeProvider>
             {children}
+            <Toaster richColors />
           </ThemeProvider>
         </QueryProvider>
       </body>
