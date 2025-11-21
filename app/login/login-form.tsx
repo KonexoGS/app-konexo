@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/app/lib/utils"
 import { Button } from "@/components/shadcn/button"
 import {
   Card,
@@ -31,8 +31,8 @@ export function LoginForm({
   const form = useForm<LoginFormSchema>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'elaine.ramos0@example.com',
+      password: 'Drifter@92Mirage',
     },
     mode: "onSubmit",
   })
@@ -40,19 +40,19 @@ export function LoginForm({
   const router = useRouter();
 
   const handleSubmit = async (data: LoginFormSchema) => {
-    // const res = await login(data);
-
-    // console.log(res.error);
+    const res = await login(data);
     
-
-    // if (res?.validation_errors?.properties) {
-    //   Object.entries(res.validation_errors.properties).forEach(([property, val]) => {
-    //     const errorMessage = val?.errors?.[0] || 'Campo inválido';
-    //     form.setError(property as 'email' | 'password', { message: errorMessage });
-    //   });
-    //   return;
-    // }
-    router.replace('/home')
+    if(!res.success && res.error) {
+      console.log(res.error);
+      
+      form.setError('root', {
+        type: 'manual',
+        message: 'Usuário ou senha inválidos'
+      })
+    }else{
+       router.push('/home');
+    }
+   
   }
 
   return (
@@ -116,6 +116,11 @@ export function LoginForm({
               />
               <Field className="gap-4">
                 <Button className="cursor-pointer bg-purple-950 hover:bg-purple-900 dark:text-[#260135] dark:bg-primary dark:hover:bg-primary/90" type="submit">Login</Button>
+                {form.formState.errors.root && (
+                  <div className="text-red-500 text-sm text-center">
+                    {form.formState.errors.root.message}
+                  </div>
+                )}
                 <FieldDescription className="text-center dark:text-white/70">
                   Não tem uma conta? <Link href="/register" className="not-dark:hover:text-purple-950">Registre-se</Link>
                 </FieldDescription>

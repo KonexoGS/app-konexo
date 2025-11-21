@@ -6,7 +6,7 @@ import GradientButton from "@/components/gradient-button/gradient-button";
 import { useTheme } from "@/contexts/ThemeContext";
 import Image from "next/image";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 
 export default function Landing() {
 

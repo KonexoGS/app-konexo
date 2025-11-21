@@ -3,7 +3,7 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { ButtonHTMLAttributes, useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/app/lib/utils";
 
 type ThemeToggleProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: number;

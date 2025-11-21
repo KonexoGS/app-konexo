@@ -1,6 +1,6 @@
 import React, { ForwardRefExoticComponent, RefAttributes, useState, useEffect, useCallback, useRef } from 'react'
 import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem, Tooltip, TooltipContent, TooltipTrigger } from '@/components/shadcn'
-import { cn } from '@/lib/utils'
+import { cn } from '@/app/lib/utils'
 import { LucideProps } from 'lucide-react';
 import Link from 'next/link';
 import { useExploreStore } from '@/hooks/stores/use-explore-store';
