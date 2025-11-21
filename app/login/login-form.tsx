@@ -63,7 +63,7 @@ export function LoginForm({
             height={40}
             priority
           />
-          <CardTitle className="text-center text-purple-950 dark:text-white">Entre na sua conta</CardTitle>
+          <CardTitle className="text-center text-purple-950 dark:text-white text-lg">Entre na sua conta</CardTitle>
           <CardDescription className="dark:text-white/80">
             Insira seu e-mail abaixo para entrar na sua conta
           </CardDescription>

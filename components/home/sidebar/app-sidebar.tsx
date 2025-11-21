@@ -23,7 +23,7 @@ export type SidebarControlOptions = 'open' | 'closed' | 'hover';
 export function AppSidebar() {
 
   const pathname = usePathname();
-  const { state, setOpen } = useSidebar();
+  const { state, setOpen, isMobile } = useSidebar();
 
   const [sidebarControl, setSidebarControl] = useLocalStorage<SidebarControlOptions>('sidebar-control', 'hover');
 
@@ -68,6 +68,7 @@ export function AppSidebar() {
       onMouseEnter={isHoverMode ? handleMouseEnter : undefined}
       onMouseLeave={isHoverMode ? handleMouseLeave : undefined}
       collapsible="icon"
+      side={isMobile ? "right" : "left"}
       className="z-51 pointer-events-auto  data-[slot='sidebar-container']:group-data-[collapsible=icon]:hover:w-(--sidebar-width-icon)!"
     >
       <SidebarHeader>
