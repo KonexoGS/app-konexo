@@ -1,8 +1,10 @@
 "use server";
 
 import { LoginFormSchema, loginFormSchema } from "@/validation/login-schema";
+import { createSession } from "@/app/lib/session";
 import axios from "axios";
 import z, { success } from "zod";
+import { redirect } from "next/navigation";
 
 export async function login(data: LoginFormSchema) {
   const validation = loginFormSchema.safeParse({
@@ -18,19 +20,31 @@ export async function login(data: LoginFormSchema) {
   }
 
   try {
+    const formData = new URLSearchParams();
+    formData.append('username', data.email);
+    formData.append('password', data.password);
+
     const res = await axios.post(
       "http://konexoapi.chilecentral.cloudapp.azure.com/auth/token",
+      formData,
       {
-        email: data.email,
-        password: data.password,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
       }
     );
 
-    console.log(res.data);
+    const user = await axios.get(`http://konexoapi.chilecentral.cloudapp.azure.com/devs/profile/${res.data.username}`);
+
+    // Criar sessão com o userId
+    await createSession(user.data.id, data.email);
+
+    redirect('/home')
 
     return {
       success: true,
       data: res.data,
+      user: user.data,
     };
   } catch (error: any) {
     console.error(error.message);
