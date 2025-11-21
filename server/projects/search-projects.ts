@@ -1,27 +1,29 @@
-"use server"
+"use server";
 
 import { Project } from "@/interfaces/project";
 import axios from "axios";
 
-type SearchProjectsQueryParams = 'category' | 'project_id' | 'name';
+type SearchProjectsQueryParams = "category" | "project_id" | "name";
 
-export async function searchProjects(queryParam: SearchProjectsQueryParams, term: string) {
-
+export async function searchProjects(
+  queryParam: SearchProjectsQueryParams,
+  term: string
+) {
   try {
-    const res = await axios.get(`http://localhost:8000/projects/search?${queryParam}=${term}`);
+    const res = await axios.get(
+      `http://konexoapi.chilecentral.cloudapp.azure.com/projects/search?${queryParam}=${term}`
+    );
 
     return {
       success: true,
-      data: res.data as Project[]
-    }
-
+      data: res.data as Project[],
+    };
   } catch (error: any) {
-
     if (error?.response?.status === 404) {
       return {
         success: true,
-        data: []
-      }
+        data: [],
+      };
     }
 
     console.error(error);
@@ -29,7 +31,7 @@ export async function searchProjects(queryParam: SearchProjectsQueryParams, term
     return {
       success: false,
       data: [],
-      error: error instanceof Error ? error.message : 'Erro desconhecido'
+      error: error instanceof Error ? error.message : "Erro desconhecido",
     };
   }
 }

@@ -1,22 +1,23 @@
-"use server"
+"use server";
 
 import axios from "axios";
 
 export async function getAllUsers() {
   try {
-    const res = await axios.get("http://localhost:8000/default-profiles");
+    const res = await axios.get(
+      "http://konexoapi.chilecentral.cloudapp.azure.com/default-profiles"
+    );
 
     return {
       success: true,
-      data: res.data
-    }
-
+      data: res.data,
+    };
   } catch (error) {
     console.error(error);
 
     return {
       success: false,
-      error: error
-    }
+      error: error,
+    };
   }
 }
