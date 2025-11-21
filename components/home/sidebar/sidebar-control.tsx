@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
-import { Button, Popover, PopoverContent, PopoverTrigger } from '../shadcn'
+import { Button, Popover, PopoverContent, PopoverTrigger } from '@/components/shadcn'
 import { Circle, PanelLeftIcon } from 'lucide-react'
 import { SidebarControlOptions } from './app-sidebar';
 import { useTheme } from '@/contexts/ThemeContext';

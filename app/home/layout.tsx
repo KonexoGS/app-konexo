@@ -1,7 +1,8 @@
 import { SidebarProvider } from "@/components/shadcn/sidebar"
-import { AppSidebar } from "@/components/home/app-sidebar"
-import SearchTab from "@/components/home/search-tab"
+import { AppSidebar } from "@/components/home/sidebar/app-sidebar"
+import SearchTab from "@/components/home/sidebar/search-tab"
 import { cookies } from "next/headers"
+import './home.css'
 
 export default async function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
   

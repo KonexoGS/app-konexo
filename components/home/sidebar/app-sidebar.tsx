@@ -15,7 +15,7 @@ import { useLocalStorage } from "@/hooks/use-local-storage"
 import { NavUser } from "./nav-user"
 import SidebarIterator from "./sidebar-iterator"
 import { sidebarItems } from "@/constants/sidebar-items"
-import ThemeToggle from "../theme-toggle"
+import ThemeToggle from "@/components/theme-toggle"
 import { useExploreStore } from "@/hooks/stores/use-explore-store"
 
 export type SidebarControlOptions = 'open' | 'closed' | 'hover';
