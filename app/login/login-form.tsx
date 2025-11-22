@@ -52,7 +52,6 @@ export function LoginForm({
     }else{
        router.push('/home');
     }
-   
   }
 
   return (

@@ -17,11 +17,13 @@ import SidebarIterator from "./sidebar-iterator"
 import { sidebarItems } from "@/constants/sidebar-items"
 import ThemeToggle from "@/components/theme-toggle"
 import { useExploreStore } from "@/hooks/stores/use-explore-store"
+import { useUser } from "@/contexts/UserContext"
 
 export type SidebarControlOptions = 'open' | 'closed' | 'hover';
 
 export function AppSidebar() {
 
+  const { user } = useUser()
   const pathname = usePathname();
   const { state, setOpen, isMobile } = useSidebar();
 
@@ -54,14 +56,6 @@ export function AppSidebar() {
   // handlers para modo hover
   const handleMouseEnter = () => state === "collapsed" && isHoverMode && setOpen(true);
   const handleMouseLeave = () => state === "expanded" && isHoverMode && !isDropdownOpen && setOpen(false);
-
-  const data = useMemo(() => ({
-    user: {
-      name: "Luís Scaccheti",
-      email: "m@example.com",
-      avatar: "/avatars/shadcn.jpg",
-    },
-  }), []);
 
   return (
     <Sidebar
@@ -102,7 +96,7 @@ export function AppSidebar() {
           />
           <ThemeToggle size={24} />
         </div>
-        <NavUser user={data.user} onOpenChange={setIsDropdownOpen} />
+        <NavUser onOpenChange={setIsDropdownOpen} />
       </SidebarFooter>
     </Sidebar>
   )
