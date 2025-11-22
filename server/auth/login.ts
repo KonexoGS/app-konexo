@@ -3,8 +3,7 @@
 import { LoginFormSchema, loginFormSchema } from "@/validation/login-schema";
 import { createSession } from "@/app/lib/session";
 import axios from "axios";
-import z, { success } from "zod";
-import { redirect } from "next/navigation";
+import z from "zod";
 
 export async function login(data: LoginFormSchema) {
   const validation = loginFormSchema.safeParse({
@@ -34,12 +33,9 @@ export async function login(data: LoginFormSchema) {
       }
     );
 
-    const user = await axios.get(`http://konexoapi.chilecentral.cloudapp.azure.com/devs/profile/${res.data.username}`);
+    const user = await axios.get(`http://konexoapi.chilecentral.cloudapp.azure.com/devs/profile/${res.data.username}`);    
 
-    // Criar sessão com o userId
-    await createSession(user.data.id, data.email);
-
-    redirect('/home')
+    await createSession(user.data.user_id, data.email);
 
     return {
       success: true,

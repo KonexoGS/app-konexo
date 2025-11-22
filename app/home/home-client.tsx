@@ -1,0 +1,32 @@
+"use client"
+
+import SectionProjects from "@/components/home/projects/section-projects";
+import { useUser } from "@/contexts/UserContext";
+
+interface HomeClientProps {
+  projects: any[];
+  greeting: string;
+}
+
+export default function HomeClient({ projects, greeting }: HomeClientProps) {
+  const { user } = useUser();
+
+  return (
+    <div className='w-full bg-linear-to-br from-background to-accent/20 p-4 md:p-10 pt-6 md:pt-12 h-screen space-y-6 md:space-y-8 overflow-y-auto scrollbar-custom sidebar-custom-without-radius'>
+      <div className="flex flex-col gap-2">
+        <h1 className="text-2xl md:text-4xl font-semibold text-transparent leading-tight tracking-tight bg-[linear-gradient(90deg,#29D757,#72EB8B,#8FE479,#BEE49F)] not-dark:bg-[linear-gradient(90deg,#421A60,#711B87,#9F1882,#DD2BAD)] bg-clip-text w-fit">
+          {greeting}, {user?.full_name || 'Usuário'}
+        </h1>
+        <h3 className="text-sm md:text-base text-sidebar-accent-foreground font-light">
+          Selecionamos alguns projetos que dão match <br className="sm:hidden" />
+          com as suas skills
+        </h3>
+      </div>
+
+      <div className="flex flex-col gap-6 md:gap-10">
+        <SectionProjects title="Meus projetos" projects={projects} />
+        <SectionProjects title="Sugestões" projects={projects} />
+      </div>
+    </div>
+  )
+}

@@ -30,19 +30,20 @@ import {
   useSidebar,
 } from "@/components/shadcn/sidebar"
 import Link from "next/link"
+import { logoutAction } from "@/app/actions/auth"
+import { useUser } from "@/contexts/UserContext"
 
 export function NavUser({
-  user,
   onOpenChange,
 }: {
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
   onOpenChange?: (open: boolean) => void
 }) {
   const { isMobile } = useSidebar()
+  const { user } = useUser()
+
+  if (!user) {
+    return null
+  }
 
   return (
     <SidebarMenu>
@@ -54,11 +55,10 @@ export function NavUser({
               className="cursor-pointer data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">{user.full_name.slice(0, 2).toUpperCase()}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate font-medium">{user.full_name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
@@ -73,11 +73,10 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">LS</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">{user.full_name.slice(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
+                  <span className="truncate font-medium">{user.full_name}</span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>
               </div>
@@ -105,10 +104,14 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
-              <LogOut />
-              Log out
-            </DropdownMenuItem>
+            <form action={logoutAction}>
+              <DropdownMenuItem asChild>
+                <button type="submit" className="cursor-pointer w-full flex items-center">
+                  <LogOut />
+                  Log out
+                </button>
+              </DropdownMenuItem>
+            </form>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
