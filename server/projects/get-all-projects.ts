@@ -5,7 +5,7 @@ import axios from "axios";
 export async function getAllProjects() {
   try {
     const res = await axios.get(
-      "http://konexoapi.chilecentral.cloudapp.azure.com/projects"
+      `${process.env.API_URL}/projects`
     );
 
     return {

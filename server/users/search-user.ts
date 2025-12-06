@@ -10,7 +10,7 @@ export async function searchUsers(
 ) {
   try {
     const res = await axios.get(
-      `http://konexoapi.chilecentral.cloudapp.azure.com/devs/search?${queryParam}=${term}`
+      `${process.env.API_URL}/devs/search?${queryParam}=${term}`
     );
 
     return {
