@@ -7,8 +7,8 @@ export async function recommendDev(
   is_recommend: boolean = true
 ) {
   try {
-    const res = await axios.patch(
-      `http://konexoapi.chilecentral.cloudapp.azure.com/devs/recommend?dev_id=${devId}&is_recommend=${is_recommend}`
+    await axios.patch(
+      `${process.env.API_URL}/devs/recommend?dev_id=${devId}&is_recommend=${is_recommend}`
     );
 
     return {

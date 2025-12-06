@@ -5,7 +5,7 @@ import axios from "axios";
 export async function getAllUsers() {
   try {
     const res = await axios.get(
-      "http://konexoapi.chilecentral.cloudapp.azure.com/default-profiles"
+      `${process.env.API_URL}/default-profiles`
     );
 
     return {

@@ -5,7 +5,7 @@ import axios from "axios";
 export async function getAllDevs() {
   try {
     const res = await axios.get(
-      "http://konexoapi.chilecentral.cloudapp.azure.com/devs"
+      `${process.env.API_URL}/devs`
     );
 
     return {

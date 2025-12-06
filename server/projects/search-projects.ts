@@ -11,7 +11,7 @@ export async function searchProjects(
 ) {
   try {
     const res = await axios.get(
-      `http://konexoapi.chilecentral.cloudapp.azure.com/projects/search?${queryParam}=${term}`
+      `${process.env.API_URL}/projects/search?${queryParam}=${term}`
     );
 
     return {

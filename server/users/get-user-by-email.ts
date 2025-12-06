@@ -7,7 +7,7 @@ export async function getUserByEmail(
 ) {
   try {
     const res = await axios.get(
-      `http://konexoapi.chilecentral.cloudapp.azure.com/user/search/${email}`
+      `${process.env.API_URL}/user/search/${email}`
     );
 
     return {
