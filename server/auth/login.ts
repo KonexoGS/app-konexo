@@ -1,4 +1,5 @@
-"use server";
+'use server'
+import 'server-only'
 
 import z from "zod";
 import axios from "axios";
@@ -39,10 +40,10 @@ export async function login(data: LoginFormSchema) {
 
     await createSession(user.data.user_id, data.email);
 
+    console.log(user.data);
+
     return {
       success: true,
-      data: res.data,
-      user: user.data,
     };
   } catch (error: any) {
     console.error(error.message);

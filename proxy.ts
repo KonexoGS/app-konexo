@@ -1,23 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { jwtVerify } from 'jose'
-
-// Função para descriptografar a sessão no middleware
-async function verifySession(session: string | undefined) {
-  if (!session) return null
-  
-  try {
-    const secretKey = process.env.SESSION_SECRET
-    const encodedKey = new TextEncoder().encode(secretKey)
-    
-    const { payload } = await jwtVerify(session, encodedKey, {
-      algorithms: ['HS256'],
-    })
-    
-    return payload
-  } catch (error) {
-    return null
-  }
-}
+import { decrypt } from './app/lib/session'
 
 // Rotas que podem ser acessadas sem autenticação
 const publicRoutes = [
@@ -37,19 +19,20 @@ const protectedRoutes = [
 
 export async function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname
-  const isPublicRoute = publicRoutes.includes(path) || 
+
+  const isPublicRoute = publicRoutes.includes(path) ||
     path.startsWith('/api/') ||
     path.startsWith('/_next/') ||
     path.startsWith('/favicon') ||
     path.includes('.')
 
-  const isProtectedRoute = protectedRoutes.some(route => 
+  const isProtectedRoute = protectedRoutes.some(route =>
     path.startsWith(route)
   )
 
   // Verificar se há uma sessão válida
   const cookie = request.cookies.get('session')?.value
-  const session = await verifySession(cookie)
+  const session = await decrypt(cookie);
 
   // Se está tentando acessar uma rota protegida sem sessão
   if (isProtectedRoute && !session?.userId) {

@@ -3,7 +3,7 @@ import { AppSidebar } from "@/components/home/sidebar/app-sidebar"
 import SearchTab from "@/components/home/sidebar/search-tab"
 import { cookies } from "next/headers"
 import { MobileSidebarTrigger } from "@/components/home/sidebar/mobile-sidebar-trigger"
-import { requireAuth } from "@/lib/auth"
+import { requireAuth } from "@/auth/auth"
 import { getUserByEmail } from "@/server/users/get-user-by-email"
 import { UserProvider } from "@/contexts/UserContext"
 
