@@ -3,7 +3,6 @@ import { AppSidebar } from "@/components/home/sidebar/app-sidebar"
 import SearchTab from "@/components/home/sidebar/search-tab"
 import { cookies } from "next/headers"
 import { MobileSidebarTrigger } from "@/components/home/sidebar/mobile-sidebar-trigger"
-import { searchUsers } from "@/server/users/search-user"
 import { getUserByEmail } from "@/server/users/get-user-by-email"
 import { UserProvider } from "@/contexts/UserContext"
 import { decrypt } from "../lib/session"
@@ -13,13 +12,13 @@ export default async function Layout({ children }: Readonly<{ children: React.Re
 
   const cookieStore = await cookies();
 
-  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
-
   const session_string = cookieStore.get('session')?.value
 
   const session = await decrypt(session_string);
 
-  if (!session) redirect('/login')
+  if (!session) redirect('/login');
+
+  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
 
   const user = await getUserByEmail(session.email!);
 

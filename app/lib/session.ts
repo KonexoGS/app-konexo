@@ -11,9 +11,10 @@ export interface SessionData {
 }
 
 const secretKey = process.env.SESSION_SECRET
-if (!secretKey) throw new Error('SESSION_SECRET environment variable is not set')
 
-const algorithm = process.env.JWT_ALGORITHM || 'HS256'
+if (!secretKey) throw new Error('SESSION_SECRET environment variable is not set');
+
+const algorithm = process.env.JWT_ALGORITHM || 'HS256';
 const encodedKey = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: SessionData) {
@@ -32,7 +33,7 @@ export async function decrypt(session: string | undefined = '') {
     })
     return payload as SessionData;
   } catch (error) {
-    console.log('Failed to verify session')
+    console.log('falha na verificação de sessão')
     return null
   }
 }
@@ -57,7 +58,7 @@ export async function getSession(): Promise<SessionData | null> {
 
   if (!session) return null
 
-  const payload = await decrypt(session)
+  const payload = await decrypt(session);
 
   if (!payload || typeof payload !== 'object' || !payload.userId) {
     return null

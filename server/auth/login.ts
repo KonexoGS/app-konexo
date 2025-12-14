@@ -2,17 +2,19 @@
 import 'server-only'
 
 import z from "zod";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { LoginFormSchema, loginFormSchema } from "@/validation/login-schema";
 import { createSession } from "@/app/lib/session";
 
 export async function login(data: LoginFormSchema) {
+
   const validation = loginFormSchema.safeParse({
     email: data.email,
     password: data.password,
   });
 
   if (!validation.success) {
+    console.log(z.treeifyError(validation.error));
     return {
       success: false,
       validation_errors: z.treeifyError(validation.error),
@@ -21,6 +23,7 @@ export async function login(data: LoginFormSchema) {
 
   try {
     const formData = new URLSearchParams();
+
     formData.append('username', data.email);
     formData.append('password', data.password);
 
@@ -40,17 +43,18 @@ export async function login(data: LoginFormSchema) {
 
     await createSession(user.data.user_id, data.email);
 
-    console.log(user.data);
+    return { success: true };
 
-    return {
-      success: true,
-    };
-  } catch (error: any) {
-    console.error(error.message);
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      if (error.status === 401) {
+        return {
+          success: false,
+          error: { message:'Usuário ou senha inválidos.' }
+        }
+      }
+    }
 
-    return {
-      success: false,
-      error: error.message,
-    };
+    return { success: false };
   }
 }
