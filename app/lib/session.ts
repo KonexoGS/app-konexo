@@ -1,44 +1,48 @@
 import 'server-only'
+
 import { SignJWT, jwtVerify } from 'jose'
-import { LoginFormSchema } from '@/validation/login-schema'
 import { cookies } from 'next/headers'
 
-// Interface para os dados da sessão
 export interface SessionData {
   userId: string
   email?: string
   expiresAt?: Date
   [key: string]: any // Para compatibilidade com JWTPayload
 }
- 
+
 const secretKey = process.env.SESSION_SECRET
-const encodedKey = new TextEncoder().encode(secretKey)
- 
+
+if (!secretKey) throw new Error('SESSION_SECRET environment variable is not set');
+
+const algorithm = process.env.JWT_ALGORITHM || 'HS256';
+const encodedKey = new TextEncoder().encode(secretKey);
+
 export async function encrypt(payload: SessionData) {
-  return new SignJWT(payload)
-    .setProtectedHeader({ alg: 'HS256' })
+  const { expiresAt, ...jwtPayload } = payload
+  return new SignJWT(jwtPayload)
+    .setProtectedHeader({ alg: algorithm })
     .setIssuedAt()
-    .setExpirationTime('7d')
+    .setExpirationTime(expiresAt ? Math.floor(expiresAt.getTime() / 1000) : '7d')
     .sign(encodedKey)
 }
- 
+
 export async function decrypt(session: string | undefined = '') {
   try {
     const { payload } = await jwtVerify(session, encodedKey, {
-      algorithms: ['HS256'],
+      algorithms: [algorithm],
     })
-    return payload
+    return payload as SessionData;
   } catch (error) {
-    console.log('Failed to verify session')
+    console.log('falha na verificação de sessão')
+    return null
   }
 }
 
- 
 export async function createSession(userId: string, email?: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
   const session = await encrypt({ userId, email, expiresAt })
   const cookieStore = await cookies()
- 
+
   cookieStore.set('session', session, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -49,12 +53,18 @@ export async function createSession(userId: string, email?: string) {
 }
 
 export async function getSession(): Promise<SessionData | null> {
-  const cookieStore = await cookies()
-  const session = cookieStore.get('session')?.value
-  
+  const cookieStore = await cookies();
+  const session = cookieStore.get('session')?.value;
+
   if (!session) return null
-  
-  return await decrypt(session) as SessionData
+
+  const payload = await decrypt(session);
+
+  if (!payload || typeof payload !== 'object' || !payload.userId) {
+    return null
+  }
+
+  return payload as SessionData;
 }
 
 export async function deleteSession() {

@@ -1,17 +1,17 @@
 "use client"
 
 import { createContext, useContext } from 'react'
-import { User as UserInterface } from '@/interfaces/user'
+import { User } from '@/interfaces/user'
 
 // Tipo de resposta da API
 interface ApiResponse {
   success: boolean
-  data: UserInterface | UserInterface[] | []
+  data: User | User[] | []
   error?: string
 }
 
 interface UserContextType {
-  user: UserInterface | null
+  user: User | null
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined)
@@ -27,7 +27,7 @@ export function UserProvider({
   const user = userData.success && Array.isArray(userData.data) && userData.data.length > 0 
     ? userData.data[0] 
     : userData.success && !Array.isArray(userData.data) 
-    ? userData.data as UserInterface
+    ? userData.data
     : null
 
   return (
